@@ -1,0 +1,128 @@
+components:
+  schemas:
+    Ticket:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Código único del ticket
+        amount:
+          type: number
+          description: Monto total del ticket
+        purchaser:
+          type: string
+          description: Correo del comprador
+      example:
+        code: "123456789"
+        amount: 150000
+        purchaser: "pepe@coder.com"
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+  responses:
+    successGetTicket:
+      type: object
+      properties:
+        message: Mensaje para el usuario
+        response: Datos del ticket solicitado
+      example:
+        message: orders found.
+        response:
+          _id: 656e5156339d6840c2dc4f6c
+          code: 77cd6def-499a-4e5d-9620-f2e3f79982db
+          amount: 71680
+          purchaser: pepe@coder.com
+          createdAt: 2023-12-04T22:23:18.708Z
+          updatedAt: 2023-12-04T22:23:18.708Z
+          __v: 0
+    credentials:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Descripción del error
+        code:
+          type: integer
+          format: int64
+          description: código de error
+      example:
+        message: Invalid credentials
+        code: 401
+    forbidden:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Descripción del error
+        code:
+          type: integer
+          format: int64
+          description: código de error
+      example:
+        message: Unauthorized
+        code: 403
+    notFound:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicador del estado de la respuesta
+        message:
+          type: string
+          description: Indicador de qué error se cometió
+      example:
+        status: error
+        message: Not found documents
+    fatal:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicador del estado de la respuesta
+        message:
+          type: string
+          description: Indicador de qué error se cometió
+      example:
+        status: fatal
+        message: dat is not defined
+paths:
+  /api/tickets:
+    get:
+      summary: Obtener todos los tickets de un usuario
+      tags:
+        - Tickets
+      security:
+        - cookieAuth: []
+      responses:
+        '200':
+          description: Tickets obtenidos exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/successGetTicket'
+        '401':
+          description: Credenciales inválidas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/credentials'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/forbidden'
+        '404':
+          description: Documento/s no encontrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/notFound'
+        '500':
+          description: Servidor caído
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/fatal'

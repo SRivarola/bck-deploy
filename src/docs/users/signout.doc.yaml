@@ -1,0 +1,91 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        mail:
+          description: Correo del usuario
+          type: string
+        password:
+          description: Contraseña del usuario
+          type: string
+      example:
+        mail: pepe@coder.com
+        password: Test1234
+  responses:
+    successSignout:
+      type: object
+      properties:
+        message: Mensaje para el usuario.
+        response: id del usuario deslogueado.
+      example:
+        message: User signout successfully.
+    credentials:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Descripción del error
+        code:
+          type: integer
+          format: int64
+          description: código de error
+      example:
+        message: Invalid credentials
+        code: 401
+    forbidden:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Descripción del error
+        code:
+          type: integer
+          format: int64
+          description: código de error
+      example:
+        message: Unauthorized
+        code: 403
+    fatal:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicador del estado de la respuesta
+        message:
+          type: string
+          description: Indicador de qué error se cometió
+      example:
+        status: fatal
+        message: dat is not defined
+paths:
+  /api/auth/signout:
+    post:
+      summary: Cerrar sesión
+      tags:
+        - Auth
+      responses:
+        '200':
+          description: Sesión cerrada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/successSignout'
+        '401':
+          description: Credenciales inválidas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/credentials'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/forbidden'
+        '500':
+          description: Servidor caído
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/fatal'

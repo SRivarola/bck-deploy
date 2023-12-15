@@ -1,0 +1,135 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        mail:
+          description: Correo del usuario
+          type: string
+        password:
+          description: Contraseña del usuario
+          type: string
+      example:
+        mail: pepe@coder.com
+        password: Test1234
+    Login:
+      type: object
+      properties:
+        mail:
+          description: Correo del usuario
+          type: string
+        password:
+          description: Contraseña del usuario
+          type: string
+      example:
+        mail: pepe@coder.com
+        password: Test1234
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+  responses:
+    login:
+      type: object
+      properties:
+        message: Mensaje para el usuario
+        response: id del usuario logueado.
+      example: 
+        message: User logged in successfully.
+        response: true
+    credentials:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Descripción del error
+        code:
+          type: integer
+          format: int64
+          description: código de error
+      example:
+        message: Invalid credentials
+        code: 401
+    forbidden:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Descripción del error
+        code:
+          type: integer
+          format: int64
+          description: código de error
+      example:
+        message: Unauthorized
+        code: 403
+    notFound:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Descripción del error
+        code:
+          type: integer
+          format: int64
+          description: código de error
+      example:
+        message: Not Found
+        code: 404 
+    fatal:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Estado de la solicitud
+        message:
+          type: string
+          description: Descripción del error
+      example:
+        status: fatal
+        message: dat is not defined
+paths:
+  /api/auth/login:
+    post:
+      summary: Loguear un usario
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        description: Objeto con las propiedades necesarias/mínimas para loguear un usuario
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Login'
+      responses:
+        '200':
+          description: Usuario logueado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/login'
+        '401':
+          description: Credenciales inválidas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/credentials'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+              $ref: '#/components/responses/notFound'
+        '500':
+          description: Servidor caído
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/fatal'

@@ -1,0 +1,129 @@
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        title:
+          description: Nombre del producto
+          type: string
+        description:
+          description: Descripción del producto
+          type: string
+        price:
+          description: Precio del producto
+          type: integer
+          format: int64
+        thumbnail:
+          description: Fotos del producto
+          type: array
+        code:
+          description: Código del producto
+          type: string
+        status:
+          description: Estado del producto
+          type: boolean
+        stock:
+          description: Cantidad de producto restante
+          type: integer
+          format: int64
+      example:
+        title: Chivas Regal
+        description: botella de whiskey 18 años
+        price: 35000
+        thumbnail: [chivasRegal18.jpg]
+        code: asc100
+        status: true
+        stock: 500
+  responses:
+    read:
+      type: object
+      properties:
+        status: Indicador del estado de la respuesta
+        payload: Devuelve los documentos de productos del servidor
+      example:
+        status: success
+        payload:
+          - _id: 64d024b14a8a67858fc65992
+            title: Jack Daniel's
+            description: whiskey
+            price: 25000
+            thumbnail: [Jack1502.jpg]
+            code: 000001a
+            status: true
+            stock: 505
+          - _id: 64d025164a8a67858fc65994
+            title: Jameson Black Barrel
+            description: whiskey
+            price: 25000
+            thumbnail: [Jameson1234.jpg]
+            code: 000002a
+            status: true
+            stock: 400
+          - _id: 64d0252a4a8a67858fc65996
+            title: Chivas Regal
+            description: whiskey
+            price: 25000
+            thumbnail: [ChivasRegal.jpg]
+            code: 000003a
+            status: true
+            stock: 300
+    notFound:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicador del estado de la respuesta
+        message:
+          type: string
+          description: Indicador de qué error se cometió
+      example:
+        status: error
+        message: Not found documents
+    fatal:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicador del estado de la respuesta
+        message:
+          type: string
+          description: Indicador de qué error se cometió
+      example:
+        status: fatal
+        message: dat is not defined
+paths:
+  /api/products:
+    get:
+      summary: Leer productos
+      tags:
+        - Product
+      parameters:
+        - name: page
+          in: query
+          type: integer
+          format: int64
+          description: Número de página a mostrar
+        - name: limit
+          in: query
+          type: integer
+          format: int64
+          description: Número de documentos a mostrar
+      responses:
+        '200':
+          description: Éxito de lectura de productos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/read'
+        '404':
+          description: Documento/s no encontrados
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/notFound'
+        '500':
+          description: Falla del servidor al leer los productos
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/fatal'

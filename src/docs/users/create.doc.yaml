@@ -1,0 +1,140 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        first_name:
+          description: Nombre del usuario
+          type: string
+        last_name:
+          description: Apellido del usuario
+          type: string
+        mail:
+          description: Correo del usuario
+          type: string
+        password:
+          description: Contraseña del usuario
+          type: string
+        role:
+          description: Rol del usuario
+          type: string
+      example:
+        first_name: pepe
+        last_name: argento
+        mail: pepe@coder.com
+        password: Test1234
+        role: ADMIN
+    Register:
+      type: object
+      properties:
+        first_name:
+          description: Nombre del usuario
+          type: string
+        last_name:
+          description: Apellido del usuario
+          type: string
+        mail:
+          description: Correo del usuario
+          type: string
+        password:
+          description: Contraseña del usuario
+          type: string
+        role:
+          description: Rol del usuario
+          type: string
+      example:
+        first_name: pepe
+        last_name: argento
+        mail: pepe@coder.com
+        password: Test1234
+        role: ADMIN
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+  responses:
+    register:
+      type: object
+      properties:
+        message: Mensaje para el usuario
+        response: id del usuario creado.
+      example: 
+        message: User created successfully.
+        response: 65525e619210a9aae45dd76e
+    credentials:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Descripción del error
+        code:
+          type: integer
+          format: int64
+          description: código de error
+      example:
+        message: Invalid credentials
+        code: 401
+    forbidden:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Descripción del error
+        code:
+          type: integer
+          format: int64
+          description: código de error
+      example:
+        message: Unauthorized
+        code: 403
+    fatal:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Estado de la solicitud
+        message:
+          type: string
+          description: Descripción del error
+      example:
+        status: fatal
+        message: dat is not defined
+paths:
+  /api/auth/register:
+    post:
+      summary: Registrar un usuario
+      tags:
+        - Auth
+      requestBody:
+        required: true
+        description: Objeto con las propiedades necesarias/mínimas para registrar un usuario
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/User'
+      responses:
+        '201':
+          description: Usuario registrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/register'
+        '401':
+          description: Credenciales inválidas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/credentials'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/forbidden'
+        '500':
+          description: Servidor caído
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/fatal'

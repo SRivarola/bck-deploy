@@ -1,0 +1,123 @@
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        mail:
+          description: Correo del usuario
+          type: string
+        password:
+          description: Contraseña del usuario
+          type: string
+      example:
+        mail: pepe@coder.com
+        password: Test1234
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+  responses:
+    successUpdate:
+      type: object
+      properties:
+        message: Mensaje para el usuario.
+        response: id del usuario modificado.
+      example:
+        message: User modified successfully.
+    credentials:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Descripción del error
+        code:
+          type: integer
+          format: int64
+          description: código de error
+      example:
+        message: Invalid credentials
+        code: 401
+    forbidden:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Descripción del error
+        code:
+          type: integer
+          format: int64
+          description: código de error
+      example:
+        message: Unauthorized
+        code: 403
+    notFound:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicador del estado de la respuesta
+        message:
+          type: string
+          description: Indicador de qué error se cometió
+      example:
+        status: error
+        message: Not found documents
+    fatal:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicador del estado de la respuesta
+        message:
+          type: string
+          description: Indicador de qué error se cometió
+      example:
+        status: fatal
+        message: dat is not defined
+paths:
+  /api/auth/premium/{uid}:
+    put:
+      summary: Actualizar rol a premium
+      tags:
+        - Auth
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: uid
+          required: true
+          description: ID del ususario a actualizar
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Rol actualizado exitosamente a premium
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/successUpdate'
+        '401':
+          description: Credenciales inválidas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/credentials'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/forbidden'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+              $ref: '#/components/responses/notFound'
+        '500':
+          description: Servidor caído
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/fatal'

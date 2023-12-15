@@ -1,0 +1,30 @@
+config:
+  plugins:
+    metrics-by-endpoint: {}
+  target: http://localhost:7000/api
+  phases:
+    - duration: 30
+      arrivalRate: 10
+
+scenarios:
+  - name: log in admin, create a product, delete the product, log out
+    flow:
+      - log: "Log in Admin"
+      - post:
+          url: /auth/fake/login
+          json:
+            mail: "testperformance@coder.com"
+            password: "Test1234"
+            role: "ADMIN"
+      - log: "Create a product"
+      - post:
+          url: /products/fake/create
+          capture:
+            - json: "$.response"
+              as: pid
+      - log: "Delete the product"
+      - delete:
+          url: /products/fake/{{pid}}
+      - log: "Log out"
+      - post:
+          url: /auth/fake/signout

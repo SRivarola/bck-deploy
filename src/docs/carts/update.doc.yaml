@@ -1,0 +1,150 @@
+components:
+  schemas:
+    Cart:
+      type: object
+      properties:
+        product_id:
+          type: string
+          description: ID del producto en el carrito
+        user_id:
+          type: string
+          description: ID del usuario dueño del carrito
+        quantity:
+          type: integer
+          description: Cantidad de productos en el carrito
+        price:
+          type: number
+          description: Precio total del producto en el carrito
+        state:
+          type: string
+          enum: ['pending', 'paid', 'delivered']
+          default: 'pending'
+          description: Estado del carrito
+      example:
+        product_id: "6548422f5c4644f80a6a7e4a"
+        user_id: "656d094d3783140ab0b2fb36"
+        quantity: 1
+        price: 1351698
+        state: 'pending'
+  responses:
+    successUpdateCart:
+      type: object
+      properties:
+        message: Mensaje para el usuario
+        response: Datos del carrito actualizado
+      example:
+        message: Cart updated successfully
+        response:
+          product_id: "6548422f5c4644f80a6a7e4a"
+          user_id: "656d094d3783140ab0b2fb36"
+          quantity: 2
+          price: 999999
+          state: 'pending'
+    credentials:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Descripción del error
+        code:
+          type: integer
+          format: int64
+          description: código de error
+      example:
+        message: Invalid credentials
+        code: 401
+    forbidden:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Descripción del error
+        code:
+          type: integer
+          format: int64
+          description: código de error
+      example:
+        message: Unauthorized
+        code: 403
+    notFound:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicador del estado de la respuesta
+        message:
+          type: string
+          description: Indicador de qué error se cometió
+      example:
+        status: error
+        message: Not found documents
+    fatal:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicador del estado de la respuesta
+        message:
+          type: string
+          description: Indicador de qué error se cometió
+      example:
+        status: fatal
+        message: dat is not defined
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+paths:
+  /api/carts/{cid}:
+    put:
+      summary: Actualizar un carrito existente
+      tags:
+        - Carts
+      security:
+        - cookieAuth: []
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          description: ID del carrito a actualizar
+          schema:
+            type: string
+      requestBody:
+        required: true
+        description: Objeto con las propiedades a actualizar en el carrito
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cart'
+      responses:
+        '200':
+          description: Carrito actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/successUpdateCart'
+        '401':
+          description: Credenciales inválidas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/credentials'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/forbidden'
+        '404':
+          description: Carrito no encontrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/notFound'
+        '500':
+          description: Servidor caído
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/fatal'

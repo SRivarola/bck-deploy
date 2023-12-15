@@ -1,0 +1,16 @@
+[33mERROR[39m: POST /api/loggers - 15:58:21 - not found path.
+[33mERROR[39m: POST /api/loggers - 15:59:34 - not found path.
+[33mERROR[39m: POST /api/loggers/asd - 16:00:42 - not found path.
+[33mERROR[39m: POST /api/loggers/ - 16:00:58 - not found path.
+[33mERROR[39m: POST /api/loggers/ - 16:01:06 - Unexpected token a in JSON at position 1
+[33mERROR[39m: POST /api/loggers/ - 16:01:21 - not found path.
+[33mERROR[39m: POST /api/loggers/ - 16:02:24 - not found path.
+[33mERROR[39m: POST /api/auth/login - 16:04:53 - Invalid Credentials
+[33mERROR[39m: GET /api/products/64d04145e4caa2196494941b - 16:05:31 - undefined not found
+[33mERROR[39m: GET /api/ordersails - 16:05:42 - not found path.
+[33mERROR[39m: GET /api/ordersails - 16:05:59 - not found path.
+[33mERROR[39m: POST /api/auth/login - 17:05:19 - Invalid Credentials
+[33mERROR[39m: POST /api/auth/login - 17:25:56 - Invalid Credentials
+[33mERROR[39m: GET / - 17:39:06
+[31mFATAL[39m: GET / - 17:39:06
+[33mERROR[39m: POST /api/auth/login - 17:39:25 - Invalid Credentials

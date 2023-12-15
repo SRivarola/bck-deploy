@@ -1,0 +1,114 @@
+<div class="container">
+    <h1 class="container__title">Our Whiskey's Selection</h1>
+    <div class="cards_container" id="cards_container">
+        {{#each products}}
+        <div class="card" id={{this.id}}>
+            <div class="image_container">
+                <img src="/images/{{this.thumbnail.[0]}}" alt={{this.title}}>
+    
+            </div>
+            <div class="details_container">
+                <div>
+                    <p class="card_title">{{this.title}}</p>
+                    <p class="card_description">{{this.description}}</p>
+                    <p class="card_price">${{this.price}}</p>
+                </div>
+                <div class="btn_container">
+                    <button class="btn-agregar">AGREGAR AL CARRITO</button>
+                </div>
+            </div>
+        </div>
+        {{/each}}
+    </div>
+    <h1 class="container__title">Products Admin</h1>
+    <form id="set_form" class="form_container">
+        <h2 class="form_title">Add Product</h2>
+        <div class="form_group">
+            <div>
+                <label>
+                    <p class="label">Product Title:</p>
+                    <input 
+                        type="text"
+                        placeholder="product title"
+                    >
+                </label>
+            </div>
+            <div>
+                <label>
+                    <p class="label">Product Description:</p>
+                    <input 
+                        type="text"
+                        placeholder="product description"
+                    >
+                </label>
+            </div>
+        </div>
+        <div class="form_group">
+            <div>
+                <label>
+                    <p class="label">Product Price:</p>
+                    <input 
+                        type="number" 
+                        placeholder="product price"
+                    >
+                </label>
+            </div>
+            <div>
+                <label>
+                    <p class="label">Product image:</p>
+                    <input 
+                        type="file" 
+                    >
+                </label>
+            </div>
+        </div>
+        <div class="form_group">
+            <div>
+                <label>
+                    <p class="label">Product Stock:</p>
+                    <input 
+                        type="number" 
+                        placeholder="product stock"
+                    >
+                </label>
+            </div>
+            <div>
+                <label>
+                    <p class="label">Product Code:</p>
+                    <input 
+                        type="text"
+                        placeholder="product code"
+                    >
+                </label>
+            </div>
+        </div>
+        <div class="form_group">
+            <div>
+                <label>
+                    <p class="label">Product Status:</p>
+                    <select class="select">
+                        <option value="true">true</option>
+                        <option value="false">false</option>
+                    </select>
+                </label>
+            </div>
+            <div>
+                <button type="submit" class="btn_set">SET PRODUCT</button>
+            </div>
+        </div>
+    </form>
+    <form id="delete_form" class="form_container">
+        <h2 class="form_title">Delete Product</h2>
+        <div id="formGroup" class="formGroup">
+            <select id="select" class="select">
+                <option value="0">Select an option...</option>
+            </select>
+        </div>
+        <div id="btn_container" class="btn_container">
+            <button type="submit" class="btn_set">DELETE PRODUCT</button>
+        </div>
+    </form>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>

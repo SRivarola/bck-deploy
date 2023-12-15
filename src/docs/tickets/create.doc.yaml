@@ -1,0 +1,110 @@
+components:
+  schemas:
+    Ticket:
+      type: object
+      properties:
+        code:
+          type: string
+          description: Código único del ticket
+        amount:
+          type: number
+          description: Monto total del ticket
+        purchaser:
+          type: string
+          description: Correo del comprador
+      example:
+        code: "123456789"
+        amount: 150000
+        purchaser: "pepe@coder.com"
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+  responses:
+    successCreateTicket:
+      type: object
+      properties:
+        message: Mensaje para el usuario
+        response: Datos del ticket creado
+      example:
+        message: Order created successfully.
+        response: 656e526a339d6840c2dc4f76
+    credentials:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Descripción del error
+        code:
+          type: integer
+          format: int64
+          description: código de error
+      example:
+        message: Invalid credentials
+        code: 401
+    forbidden:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Descripción del error
+        code:
+          type: integer
+          format: int64
+          description: código de error
+      example:
+        message: Unauthorized
+        code: 403
+    fatal:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicador del estado de la respuesta
+        message:
+          type: string
+          description: Indicador de qué error se cometió
+      example:
+        status: fatal
+        message: dat is not defined
+paths:
+  /api/tickets:
+    post:
+      summary: Crear un nuevo ticket
+      tags:
+        - Tickets
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        description: Objeto con las propiedades necesarias para crear un ticket
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Ticket'
+      responses:
+        '201':
+          description: Ticket creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/successCreateTicket'
+        '401':
+          description: Credenciales inválidas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/credentials'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/forbidden'
+        '500':
+          description: Servidor caído
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/fatal'

@@ -1,0 +1,169 @@
+components:
+  schemas:
+    Product:
+      type: object
+      properties:
+        title:
+          description: Nombre del producto
+          type: string
+        description:
+          description: Descripción del producto
+          type: string
+        price:
+          description: Precio del producto
+          type: integer
+          format: int64
+        thumbnail:
+          description: Fotos del producto
+          type: array
+        code:
+          description: Código del producto
+          type: string
+        status:
+          description: Estado del producto
+          type: boolean
+        stock:
+          description: Cantidad de producto restante
+          type: integer
+          format: int64
+      example:
+        title: Chivas Regal
+        description: botella de whiskey 18 años
+        price: 35000
+        thumbnail: [chivasRegal18.jpg]
+        code: asc100
+        status: true
+        stock: 500
+    Create:
+      type: object
+      properties:
+        title:
+          description: Nombre del producto
+          type: string
+        description:
+          description: Descripción del producto
+          type: string
+        price:
+          description: Precio del producto
+          type: number
+        thumbnail:
+          description: Fotos del producto
+          type: array
+        code:
+          description: Código del producto
+          type: string
+        status:
+          description: Estado del producto
+          type: boolean
+        stock:
+          description: Cantidad de producto restante
+          type: number
+      example:
+        title: Chivas Regal 12
+        description: whiskey
+        price: 25000
+        thumbnail: [chivasR12.jpg]
+        code: dsa101
+        status: true
+        stock: 505
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: token
+  responses:
+    create:
+      type: object
+      properties:
+        success: indicador de éxito
+        message: producto creado correctamente
+        payload: documento del producto creado
+      example:
+        success: true
+        message: producto creado correctamente
+        payload: 
+          _id: 652dde2cee2ad0c3cb650346
+          title: Chivas Regal
+          description: Whiskey
+          thumbnail: [whiskeyChivas.jpg]
+          code: asdaf12354
+          status: true
+          stock: 200
+    credentials:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Descripción del error
+        code:
+          type: integer
+          format: int64
+          description: código de error
+      example:
+        message: Invalid credentials
+        code: 401
+    forbidden:
+      type: object
+      properties:
+        message:
+          type: string
+          description: Descripción del error
+        code:
+          type: integer
+          format: int64
+          description: código de error
+      example:
+        message: Unauthorized
+        code: 403
+    fatal:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Indicador del estado de la respuesta
+        message:
+          type: string
+          description: Indicador de qué error se cometió
+      example:
+        status: fatal
+        message: dat is not defined
+paths:
+  /api/products:
+    post:
+      summary: Crear un producto
+      tags:
+        - Product
+      security:
+        - cookieAuth: []
+      requestBody:
+        required: true
+        description: Objeto con las propiedades necesarias/mínimas para crear un producto
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Create'
+      responses:
+        '201':
+          description: Usuario registrado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/create'
+        '401':
+          description: Credenciales inválidas
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/credentials'
+        '403':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/forbidden'
+        '500':
+          description: Falla del servidor al crear un producto
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/fatal'

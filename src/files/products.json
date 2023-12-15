@@ -1,0 +1,98 @@
+[
+	{
+		"title": "Jack Daniel's",
+		"description": "Whiskey Jack Daniel's Old Nº 7 750ml",
+		"price": 13635,
+		"thumbnail": [
+			"JackDaniels.jpg"
+		],
+		"code": "000001",
+		"status": true,
+		"stock": 50,
+		"id": 1
+	},
+	{
+		"title": "Jameson Black Barrel",
+		"description": "Whiskey Jameson Black Barrel 700ml",
+		"price": 10675,
+		"thumbnail": [
+			"Jameson.jpg"
+		],
+		"code": "000002",
+		"status": true,
+		"stock": 1000,
+		"id": 2
+	},
+	{
+		"title": "Chivas Regal",
+		"description": "Whisky Chivas Regal Extra 13 Años, con estuche 750ml",
+		"price": 11136,
+		"thumbnail": [
+			"ChivasRegal.jpg"
+		],
+		"code": "000003",
+		"status": true,
+		"stock": 50,
+		"id": 3
+	},
+	{
+		"title": "Johnnie Walker Black Label",
+		"description": "Johnnie Walker Black Label 1L",
+		"price": 13955,
+		"thumbnail": [
+			"JohnnieWalker.jpg"
+		],
+		"code": "000004",
+		"status": true,
+		"stock": 50,
+		"id": 4
+	},
+	{
+		"title": "Buffalo Trace Bourbon",
+		"description": "Whiskey Buffalo Trace Bourbon 750ml Kentucky American",
+		"price": 17100,
+		"thumbnail": [
+			"BuffaloTrace.jpg"
+		],
+		"code": "000005",
+		"status": true,
+		"stock": 50,
+		"id": 5
+	},
+	{
+		"title": "Ballantine's",
+		"description": "Ballantine's Blended Scotch Finest 1L",
+		"price": 6213,
+		"thumbnail": [
+			"Ballantines.jpg"
+		],
+		"code": "000006",
+		"status": true,
+		"stock": 50,
+		"id": 6
+	},
+	{
+		"title": "Scapa Skiren",
+		"description": "Scapa Skiren Single Malt Scotch 700ml",
+		"price": 20963,
+		"thumbnail": [
+			"Scapa.jpg"
+		],
+		"code": "000009",
+		"status": true,
+		"stock": 50,
+		"id": 9
+	},
+	{
+		"title": "Jim Beam Black Full",
+		"description": "Jim Beam Black Full",
+		"price": 12125,
+		"thumbnail": [
+			"JimBeaM.jpg"
+		],
+		"code": "000010",
+		"status": true,
+		"stock": 50,
+		"id": 10
+	}
+]
