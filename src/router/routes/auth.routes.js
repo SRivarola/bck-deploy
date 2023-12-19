@@ -266,9 +266,9 @@ authGithub.get(
         );
         req.session.token = token
         return res
-            .status(200)
-            .cookie('token', token)
-            .redirect("http://localhost:5173/products");
+          .status(200)
+          .cookie("token", token)
+          .redirect("https://whiskey-shopy.onrender.com/#/products");
     } catch (error) {
         next(error);
     }
@@ -279,7 +279,7 @@ authGithub.get(
     '/github/token',
     async (req, res, next) => {
         try {
-            const user = await JSON.parse(req.cookies.git_token);
+            const user = await JSON.parse(req.cookies.token);
             
             if(user){
                 return res.sendSuccess(user);
